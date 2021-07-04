@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>第 4 章 t 分布 | 医学统计学与R语言</title>
+  <meta name="description" content="第 4 章 t 分布 | 医学统计学与R语言" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="第 4 章 t 分布 | 医学统计学与R语言" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="第 4 章 t 分布 | 医学统计学与R语言" />
+  
+  
+  
+
+<meta name="author" content="刘向" />
+
+
+<meta name="date" content="2021-07-03" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="推论统计.html"/>
+<link rel="next" href="methods.html"/>
+<script src="libs/header-attrs-2.9/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">中文书示例</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> 简介</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#软件准备"><i class="fa fa-check"></i><b>1.1</b> 软件准备</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#致谢"><i class="fa fa-check"></i><b>1.2</b> 致谢</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#声明"><i class="fa fa-check"></i><b>1.3</b> 声明</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="描述.html"><a href="描述.html"><i class="fa fa-check"></i><b>2</b> 计量资料的统计描述</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="描述.html"><a href="描述.html#数据录入"><i class="fa fa-check"></i><b>2.1</b> 数据录入</a></li>
+<li class="chapter" data-level="2.2" data-path="描述.html"><a href="描述.html#计算极差"><i class="fa fa-check"></i><b>2.2</b> 计算极差</a></li>
+<li class="chapter" data-level="2.3" data-path="描述.html"><a href="描述.html#计算标准差及四分位数间距"><i class="fa fa-check"></i><b>2.3</b> 计算标准差及四分位数间距</a></li>
+<li class="chapter" data-level="2.4" data-path="描述.html"><a href="描述.html#计算频数分布"><i class="fa fa-check"></i><b>2.4</b> 计算频数分布</a></li>
+<li class="chapter" data-level="2.5" data-path="描述.html"><a href="描述.html#描述性统计的度量"><i class="fa fa-check"></i><b>2.5</b> 描述性统计的度量</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="描述.html"><a href="描述.html#算术平均值"><i class="fa fa-check"></i><b>2.5.1</b> 算术平均值</a></li>
+<li class="chapter" data-level="2.5.2" data-path="描述.html"><a href="描述.html#几何平均值"><i class="fa fa-check"></i><b>2.5.2</b> 几何平均值</a></li>
+<li class="chapter" data-level="2.5.3" data-path="描述.html"><a href="描述.html#变异系数"><i class="fa fa-check"></i><b>2.5.3</b> 变异系数</a></li>
+<li class="chapter" data-level="2.5.4" data-path="描述.html"><a href="描述.html#众数及排序"><i class="fa fa-check"></i><b>2.5.4</b> 众数及排序</a></li>
+<li class="chapter" data-level="2.5.5" data-path="描述.html"><a href="描述.html#其他描述性统计"><i class="fa fa-check"></i><b>2.5.5</b> 其他描述性统计</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="描述.html"><a href="描述.html#正态分布和标准正态分布"><i class="fa fa-check"></i><b>2.6</b> 正态分布和标准正态分布</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="描述.html"><a href="描述.html#概率密度函数dnorm"><i class="fa fa-check"></i><b>2.6.1</b> 概率密度函数dnorm()</a></li>
+<li class="chapter" data-level="2.6.2" data-path="描述.html"><a href="描述.html#概率累积分布函数pnorm"><i class="fa fa-check"></i><b>2.6.2</b> 概率累积分布函数pnorm()</a></li>
+<li class="chapter" data-level="2.6.3" data-path="描述.html"><a href="描述.html#正态分位函数qnorm"><i class="fa fa-check"></i><b>2.6.3</b> 正态分位函数qnorm()</a></li>
+<li class="chapter" data-level="2.6.4" data-path="描述.html"><a href="描述.html#生成正态分布函数rnorm"><i class="fa fa-check"></i><b>2.6.4</b> 生成正态分布函数rnorm()</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="描述.html"><a href="描述.html#正态性检验"><i class="fa fa-check"></i><b>2.7</b> 正态性检验</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="推论统计.html"><a href="推论统计.html"><i class="fa fa-check"></i><b>3</b> 推论统计</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="推论统计.html"><a href="推论统计.html#统计量与标准误"><i class="fa fa-check"></i><b>3.1</b> 统计量与标准误</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="t-分布.html"><a href="t-分布.html"><i class="fa fa-check"></i><b>4</b> t 分布</a></li>
+<li class="chapter" data-level="5" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>5</b> Methods</a></li>
+<li class="chapter" data-level="6" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>6</b> Applications</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>6.1</b> Example one</a></li>
+<li class="chapter" data-level="6.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>6.2</b> Example two</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>7</b> Final Words</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org" target="blank">本书由 bookdown 强力驱动</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">医学统计学与R语言</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="t-分布" class="section level1" number="4">
+<h1><span class="header-section-number">第 4 章</span> t 分布</h1>
+<p>若某一随机变量X服从总体均数为μ，总体标标准差为σ的正态分布N(μ，σ2)，通过u变换(也称Z变换)可将一般正态分布 转化为标准正态分布N(0，12)，即u分布（也称Z分布）。同理，若样本含量为n的样本均数<br />
+ˉ
+X
+服从总体均数为μ， 总体标准差为σ
+ˉ
+x
+的正态分布N(μ，σ
+2
+ˉ
+x</p>
+<p>)，则可通过u变换(
+ˉ
+X
+−μ
+σ
+ˉ
+x</p>
+<p>)将其转换为标准正态分布。 但是，实际中总体标准差( σ
+ˉ
+x
+)是未知的，所以用均数标准误的估计值（S
+ˉ
+x
+=
+S
+√
+n</p>
+<p>，其中S为样本标准差）代替， 这就使得(
+ˉ
+X
+−μ
+S
+ˉ
+x</p>
+<p>)不再是标准正态分布，而是服从t-分布（t-distribution）， 即：
+t=
+ˉ
+X
+−μ
+S
+ˉ
+x</p>
+<p>=
+ˉ
+X
+−μ
+S
+√
+n</p>
+<p>t-分布 对应的概率密度函数是：
+f(x)=
+Γ(
+v+1
+2</p>
+<p>)
+√
+vπ
+Γ(
+v
+2</p>
+<p>)</p>
+<p>(1+
+x2
+v</p>
+<p>)
+−v+1
+2</p>
+<p>其中Γ是伽马函数(Gamma function)，v是自由度(Degree of freedom，df)。</p>
+<p>自由度(df)在数学上只能自由取值的变量个数，如X+Y+Z=1，有3个变量，但是能够自由取值的自由两个，故其自由度v=2。 在统计学中，自由度计算方式为：
+v=n−m</p>
+<p>其中n为计算某一统计量是用到的数据个数，m为计算该统计量是用到的其他独立统计量个数。比如根据肿瘤位置，大小，组织活检，生化指标 判断肿瘤的类型是A，也可能是B，这里有n=4个独立的信息，和m=2个估计，所以自由度就是df=4−2=2。一般的希望估计（推测）的越可靠， 当然是自由度越大越好了。</p>
+<p>t分布是一簇曲线，其形态变化与n（即其自由度）大小有关。自由度n越小，t分布曲线越低平；自由度n越大，t分布曲线越接近标准正态分布（u分布） 曲线，当自由度无限大时，t分布就成了正态分布。</p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="推论统计.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="methods.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/yihui/bookdown-chinese/edit/master/02-总体均数的估计与假设检验.Rmd",
+"text": "编辑"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["R语言与医学统计学.pdf", "R语言与医学统计学.epub"],
+"toc": {
+"collapse": "none"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

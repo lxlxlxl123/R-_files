@@ -1,0 +1,14 @@
+book_filename: bookdown
+clean: [packages.bib, bookdown.bbl]
+language:
+  label:
+    fig: "图 "
+    tab: "表 "
+  ui:
+    edit: "编辑"
+    chapter_name: ["第 ", " 章"]
+new_sessition: yes
+#before_chapter_script: hello.R
+delete_merged_file: True
+#rmd_files: ['index.Rmd','00-author.Rmd']
+
