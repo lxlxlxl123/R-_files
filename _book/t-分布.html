@@ -24,7 +24,7 @@
 <meta name="author" content="刘向" />
 
 
-<meta name="date" content="2021-07-03" />
+<meta name="date" content="2021-07-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -55,6 +55,70 @@
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
 
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 
 <link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -106,7 +170,10 @@
 <ul>
 <li class="chapter" data-level="3.1" data-path="推论统计.html"><a href="推论统计.html#统计量与标准误"><i class="fa fa-check"></i><b>3.1</b> 统计量与标准误</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="t-分布.html"><a href="t-分布.html"><i class="fa fa-check"></i><b>4</b> t 分布</a></li>
+<li class="chapter" data-level="4" data-path="t-分布.html"><a href="t-分布.html"><i class="fa fa-check"></i><b>4</b> t 分布</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="t-分布.html"><a href="t-分布.html#概率密度函数dt"><i class="fa fa-check"></i><b>4.1</b> 概率密度函数dt()</a></li>
+</ul></li>
 <li class="chapter" data-level="5" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>5</b> Methods</a></li>
 <li class="chapter" data-level="6" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>6</b> Applications</a>
 <ul>
@@ -137,79 +204,20 @@
             <section class="normal" id="section-">
 <div id="t-分布" class="section level1" number="4">
 <h1><span class="header-section-number">第 4 章</span> t 分布</h1>
-<p>若某一随机变量X服从总体均数为μ，总体标标准差为σ的正态分布N(μ，σ2)，通过u变换(也称Z变换)可将一般正态分布 转化为标准正态分布N(0，12)，即u分布（也称Z分布）。同理，若样本含量为n的样本均数<br />
-ˉ
-X
-服从总体均数为μ， 总体标准差为σ
-ˉ
-x
-的正态分布N(μ，σ
-2
-ˉ
-x</p>
-<p>)，则可通过u变换(
-ˉ
-X
-−μ
-σ
-ˉ
-x</p>
-<p>)将其转换为标准正态分布。 但是，实际中总体标准差( σ
-ˉ
-x
-)是未知的，所以用均数标准误的估计值（S
-ˉ
-x
-=
-S
-√
-n</p>
-<p>，其中S为样本标准差）代替， 这就使得(
-ˉ
-X
-−μ
-S
-ˉ
-x</p>
-<p>)不再是标准正态分布，而是服从t-分布（t-distribution）， 即：
-t=
-ˉ
-X
-−μ
-S
-ˉ
-x</p>
-<p>=
-ˉ
-X
-−μ
-S
-√
-n</p>
-<p>t-分布 对应的概率密度函数是：
-f(x)=
-Γ(
-v+1
-2</p>
-<p>)
-√
-vπ
-Γ(
-v
-2</p>
-<p>)</p>
-<p>(1+
-x2
-v</p>
-<p>)
-−v+1
-2</p>
-<p>其中Γ是伽马函数(Gamma function)，v是自由度(Degree of freedom，df)。</p>
-<p>自由度(df)在数学上只能自由取值的变量个数，如X+Y+Z=1，有3个变量，但是能够自由取值的自由两个，故其自由度v=2。 在统计学中，自由度计算方式为：
-v=n−m</p>
-<p>其中n为计算某一统计量是用到的数据个数，m为计算该统计量是用到的其他独立统计量个数。比如根据肿瘤位置，大小，组织活检，生化指标 判断肿瘤的类型是A，也可能是B，这里有n=4个独立的信息，和m=2个估计，所以自由度就是df=4−2=2。一般的希望估计（推测）的越可靠， 当然是自由度越大越好了。</p>
-<p>t分布是一簇曲线，其形态变化与n（即其自由度）大小有关。自由度n越小，t分布曲线越低平；自由度n越大，t分布曲线越接近标准正态分布（u分布） 曲线，当自由度无限大时，t分布就成了正态分布。</p>
+<div id="概率密度函数dt" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> 概率密度函数dt()</h2>
+<p>R中，t分布的概率密度函数为dt()，它可以给出了指定均值和标准差下每个点的概率分布的高度， 越高就代表着这个点/区间的概率越密集(大)。从下免得概率密度图见，当df=20时，t分布曲线已经非常接近标准正态曲线了。</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="t-分布.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dnorm</span>(x),<span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>),<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.45</span>),<span class="at">ylab=</span><span class="st">&quot;Student&#39;s t Density&quot;</span>,<span class="at">col=</span><span class="st">&quot;red&quot;</span>,<span class="at">lty=</span><span class="dv">1</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb1-2"><a href="t-分布.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">0</span>,<span class="at">lwd=</span><span class="dv">1</span>,<span class="at">col=</span><span class="st">&quot;black&quot;</span>)</span>
+<span id="cb1-3"><a href="t-分布.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dt</span>(x,<span class="dv">1</span>),<span class="at">col=</span><span class="st">&quot;green&quot;</span>,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">add=</span><span class="cn">TRUE</span>)</span>
+<span id="cb1-4"><a href="t-分布.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dt</span>(x,<span class="dv">2</span>),<span class="at">col=</span><span class="st">&quot;brown&quot;</span>,<span class="at">lty=</span><span class="dv">3</span>,<span class="at">add=</span><span class="cn">TRUE</span>)</span>
+<span id="cb1-5"><a href="t-分布.html#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dt</span>(x,<span class="dv">5</span>),<span class="at">col=</span><span class="st">&quot;blue&quot;</span>,<span class="at">lty=</span><span class="dv">4</span>,<span class="at">add=</span><span class="cn">TRUE</span>)</span>
+<span id="cb1-6"><a href="t-分布.html#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dt</span>(x,<span class="dv">20</span>),<span class="at">col=</span><span class="st">&quot;dark green&quot;</span>,<span class="at">lty=</span><span class="dv">5</span>,<span class="at">add=</span><span class="cn">TRUE</span>)</span>
+<span id="cb1-7"><a href="t-分布.html#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="dv">2</span>,<span class="fl">0.38</span>,<span class="fu">c</span>(<span class="st">&quot;normal&quot;</span>,<span class="st">&quot;df=1&quot;</span>,<span class="st">&quot;df=2&quot;</span>,<span class="st">&quot;df=5&quot;</span>,<span class="st">&quot;df=20&quot;</span>),</span>
+<span id="cb1-8"><a href="t-分布.html#cb1-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;green&quot;</span>,<span class="st">&quot;brown&quot;</span>,<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;dark green&quot;</span>),<span class="at">lty=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span></code></pre></div>
+<p><img src="R语言与医学统计学_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 
+</div>
 </div>
             </section>
 
