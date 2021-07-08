@@ -21,7 +21,7 @@ description: ''
 
 library(jpeg)
 library(png)
-logo <- readPNG('C:/Users/刘向/Desktop/Rproject/R语言与医学统计学/1.png')
+logo <- readPNG('D:/R-_files/1.png')
   par(mar = c(0,0,0,0))
   plot(0, 1, type = 'n', xlim = c(0,1), ylim = c(0,1), ann = F, bty = "n", xaxt = "n", yaxt ="n")
   rasterImage(logo, 0.25,0.25,0.75,0.75)
@@ -74,7 +74,7 @@ sessionInfo()
 
 library(jpeg)
 library(png)
-logo <- readPNG('C:/Users/刘向/Desktop/Rproject/R语言与医学统计学/2.png')
+logo <- readPNG('D:/R-_files/2.png')
   par(mar = c(0,0,0,0))
   plot(0, 1, type = 'n', xlim = c(0,1), ylim = c(0,1), ann = F, bty = "n", xaxt = "n", yaxt ="n")
   rasterImage(logo, 0.25,0.25,0.75,0.75)

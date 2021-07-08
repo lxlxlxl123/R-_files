@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>第 4 章 多个样本均数比较的方差分析 | 医学统计学与R语言</title>
+  <meta name="description" content="第 4 章 多个样本均数比较的方差分析 | 医学统计学与R语言" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="第 4 章 多个样本均数比较的方差分析 | 医学统计学与R语言" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="第 4 章 多个样本均数比较的方差分析 | 医学统计学与R语言" />
+  
+  
+  
+
+<meta name="author" content="刘向" />
+
+
+<meta name="date" content="2021-07-05" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="推论统计.html"/>
+<link rel="next" href="applications.html"/>
+<script src="libs/header-attrs-2.9/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/core-js-2.5.3/shim.min.js"></script>
+<script src="libs/react-17.0.0/react.min.js"></script>
+<script src="libs/react-17.0.0/react-dom.min.js"></script>
+<script src="libs/reactwidget-1.0.0/react-tools.js"></script>
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<script src="libs/reactable-binding-0.2.3/reactable.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">中文书示例</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> 简介</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#软件准备"><i class="fa fa-check"></i><b>1.1</b> 软件准备</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#致谢"><i class="fa fa-check"></i><b>1.2</b> 致谢</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#声明"><i class="fa fa-check"></i><b>1.3</b> 声明</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="描述.html"><a href="描述.html"><i class="fa fa-check"></i><b>2</b> 计量资料的统计描述</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="描述.html"><a href="描述.html#数据录入"><i class="fa fa-check"></i><b>2.1</b> 数据录入</a></li>
+<li class="chapter" data-level="2.2" data-path="描述.html"><a href="描述.html#计算极差"><i class="fa fa-check"></i><b>2.2</b> 计算极差</a></li>
+<li class="chapter" data-level="2.3" data-path="描述.html"><a href="描述.html#计算标准差及四分位数间距"><i class="fa fa-check"></i><b>2.3</b> 计算标准差及四分位数间距</a></li>
+<li class="chapter" data-level="2.4" data-path="描述.html"><a href="描述.html#计算频数分布"><i class="fa fa-check"></i><b>2.4</b> 计算频数分布</a></li>
+<li class="chapter" data-level="2.5" data-path="描述.html"><a href="描述.html#描述性统计的度量"><i class="fa fa-check"></i><b>2.5</b> 描述性统计的度量</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="描述.html"><a href="描述.html#算术平均值"><i class="fa fa-check"></i><b>2.5.1</b> 算术平均值</a></li>
+<li class="chapter" data-level="2.5.2" data-path="描述.html"><a href="描述.html#几何平均值"><i class="fa fa-check"></i><b>2.5.2</b> 几何平均值</a></li>
+<li class="chapter" data-level="2.5.3" data-path="描述.html"><a href="描述.html#变异系数"><i class="fa fa-check"></i><b>2.5.3</b> 变异系数</a></li>
+<li class="chapter" data-level="2.5.4" data-path="描述.html"><a href="描述.html#众数及排序"><i class="fa fa-check"></i><b>2.5.4</b> 众数及排序</a></li>
+<li class="chapter" data-level="2.5.5" data-path="描述.html"><a href="描述.html#其他描述性统计"><i class="fa fa-check"></i><b>2.5.5</b> 其他描述性统计</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="描述.html"><a href="描述.html#正态分布和标准正态分布"><i class="fa fa-check"></i><b>2.6</b> 正态分布和标准正态分布</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="描述.html"><a href="描述.html#概率密度函数dnorm"><i class="fa fa-check"></i><b>2.6.1</b> 概率密度函数dnorm()</a></li>
+<li class="chapter" data-level="2.6.2" data-path="描述.html"><a href="描述.html#概率累积分布函数pnorm"><i class="fa fa-check"></i><b>2.6.2</b> 概率累积分布函数pnorm()</a></li>
+<li class="chapter" data-level="2.6.3" data-path="描述.html"><a href="描述.html#正态分位函数qnorm"><i class="fa fa-check"></i><b>2.6.3</b> 正态分位函数qnorm()</a></li>
+<li class="chapter" data-level="2.6.4" data-path="描述.html"><a href="描述.html#生成正态分布函数rnorm"><i class="fa fa-check"></i><b>2.6.4</b> 生成正态分布函数rnorm()</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="描述.html"><a href="描述.html#正态性检验"><i class="fa fa-check"></i><b>2.7</b> 正态性检验</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="推论统计.html"><a href="推论统计.html"><i class="fa fa-check"></i><b>3</b> 推论统计</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="推论统计.html"><a href="推论统计.html#参数估计与假设检验"><i class="fa fa-check"></i><b>3.1</b> 参数估计与假设检验</a></li>
+<li class="chapter" data-level="3.2" data-path="推论统计.html"><a href="推论统计.html#统计量与标准误"><i class="fa fa-check"></i><b>3.2</b> 统计量与标准误</a></li>
+<li class="chapter" data-level="3.3" data-path="推论统计.html"><a href="推论统计.html#t-分布"><i class="fa fa-check"></i><b>3.3</b> t 分布</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="推论统计.html"><a href="推论统计.html#概率密度函数dt"><i class="fa fa-check"></i><b>3.3.1</b> 概率密度函数dt()</a></li>
+<li class="chapter" data-level="3.3.2" data-path="推论统计.html"><a href="推论统计.html#概率累积分布函数pt"><i class="fa fa-check"></i><b>3.3.2</b> 概率累积分布函数pt()</a></li>
+<li class="chapter" data-level="3.3.3" data-path="推论统计.html"><a href="推论统计.html#求置信区间的qt"><i class="fa fa-check"></i><b>3.3.3</b> 求置信区间的qt()</a></li>
+<li class="chapter" data-level="3.3.4" data-path="推论统计.html"><a href="推论统计.html#指定t分布函数rt"><i class="fa fa-check"></i><b>3.3.4</b> 指定t分布函数rt()</a></li>
+<li class="chapter" data-level="3.3.5" data-path="推论统计.html"><a href="推论统计.html#参数估计"><i class="fa fa-check"></i><b>3.3.5</b> 参数估计</a></li>
+<li class="chapter" data-level="3.3.6" data-path="推论统计.html"><a href="推论统计.html#假设检验"><i class="fa fa-check"></i><b>3.3.6</b> 假设检验</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="推论统计.html"><a href="推论统计.html#t-检验的分类及应用"><i class="fa fa-check"></i><b>3.4</b> t 检验的分类及应用</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="推论统计.html"><a href="推论统计.html#t检验与z检验"><i class="fa fa-check"></i><b>3.4.1</b> t检验与Z检验</a></li>
+<li class="chapter" data-level="3.4.2" data-path="推论统计.html"><a href="推论统计.html#单样本t检验"><i class="fa fa-check"></i><b>3.4.2</b> 单样本t检验</a></li>
+<li class="chapter" data-level="3.4.3" data-path="推论统计.html"><a href="推论统计.html#配对样本t检验"><i class="fa fa-check"></i><b>3.4.3</b> 配对样本t检验</a></li>
+<li class="chapter" data-level="3.4.4" data-path="推论统计.html"><a href="推论统计.html#两种独立样本t检验"><i class="fa fa-check"></i><b>3.4.4</b> 两种独立样本t检验</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="推论统计.html"><a href="推论统计.html#变量转换"><i class="fa fa-check"></i><b>3.5</b> 变量转换</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="多个样本均数比较的方差分析.html"><a href="多个样本均数比较的方差分析.html"><i class="fa fa-check"></i><b>4</b> 多个样本均数比较的方差分析</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="多个样本均数比较的方差分析.html"><a href="多个样本均数比较的方差分析.html#f分布"><i class="fa fa-check"></i><b>4.1</b> F分布</a></li>
+<li class="chapter" data-level="4.2" data-path="多个样本均数比较的方差分析.html"><a href="多个样本均数比较的方差分析.html#f检验的分类原理及应用"><i class="fa fa-check"></i><b>4.2</b> F检验的分类、原理及应用</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="多个样本均数比较的方差分析.html"><a href="多个样本均数比较的方差分析.html#f检验的前提和应用"><i class="fa fa-check"></i><b>4.2.1</b> F检验的前提和应用</a></li>
+<li class="chapter" data-level="4.2.2" data-path="多个样本均数比较的方差分析.html"><a href="多个样本均数比较的方差分析.html#单因子方差分析"><i class="fa fa-check"></i><b>4.2.2</b> 单因子方差分析</a></li>
+<li class="chapter" data-level="4.2.3" data-path="多个样本均数比较的方差分析.html"><a href="多个样本均数比较的方差分析.html#随机区组设计方差分析"><i class="fa fa-check"></i><b>4.2.3</b> 随机区组设计方差分析</a></li>
+<li class="chapter" data-level="4.2.4" data-path="多个样本均数比较的方差分析.html"><a href="多个样本均数比较的方差分析.html#拉丁方设计资料的方差分析"><i class="fa fa-check"></i><b>4.2.4</b> 拉丁方设计资料的方差分析</a></li>
+<li class="chapter" data-level="4.2.5" data-path="多个样本均数比较的方差分析.html"><a href="多个样本均数比较的方差分析.html#两阶段交叉设计资料的方差分析"><i class="fa fa-check"></i><b>4.2.5</b> 两阶段交叉设计资料的方差分析</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="多个样本均数比较的方差分析.html"><a href="多个样本均数比较的方差分析.html#多个样本均数间的多重比较"><i class="fa fa-check"></i><b>4.3</b> 多个样本均数间的多重比较</a></li>
+<li class="chapter" data-level="4.4" data-path="多个样本均数比较的方差分析.html"><a href="多个样本均数比较的方差分析.html#多样本方差齐性检验"><i class="fa fa-check"></i><b>4.4</b> 多样本方差齐性检验</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="多个样本均数比较的方差分析.html"><a href="多个样本均数比较的方差分析.html#bartletts-检验"><i class="fa fa-check"></i><b>4.4.1</b> Bartlett’s 检验</a></li>
+<li class="chapter" data-level="4.4.2" data-path="多个样本均数比较的方差分析.html"><a href="多个样本均数比较的方差分析.html#levenes-检验"><i class="fa fa-check"></i><b>4.4.2</b> Levene’s 检验</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="多个样本均数比较的方差分析.html"><a href="多个样本均数比较的方差分析.html#重复测量的方差分析"><i class="fa fa-check"></i><b>4.5</b> 重复测量的方差分析</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>5.1</b> Example one</a></li>
+<li class="chapter" data-level="5.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>5.2</b> Example two</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>6</b> Final Words</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org" target="blank">本书由 bookdown 强力驱动</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">医学统计学与R语言</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="多个样本均数比较的方差分析" class="section level1" number="4">
+<h1><span class="header-section-number">第 4 章</span> 多个样本均数比较的方差分析</h1>
+<p>T检验只能比较两组样本均值，对于多组的样本处理就需要用方差分析(Analysis of variance. ANOVA)。</p>
+<p>在进行科学研究时，有时要按实验(对人称为试验)设计将所研究的对象分为多个处理组施加不同的干预(比如治疗某种疾病的方式)，施加的干预为处理， 处理因素(Treatment，如用药处理，手术处理，药品剂量等)至少有两个水平(Level，比如药物种类有A，B，C三种，即为3个水平)。这类科研资料的统计分析， 是通过所获得的样本信息来推断各处理组均数 间的差别是否有统计学意义，即处理有无效果。常采用 的统计分析方法为方差分析，由英国统计学家R. A. Fisher 首创， 为纪念 Fisher.以F命名，故方差分析又称F检验，也称为 “变异数分析”。</p>
+<p>F检验与前面的t检验或者Z检验类似，也有自己的概率分布基础，即方差分析是依靠F-分布为概率分布的依据， 利用离均差平方和(Sum of square of deviations from mean,SS)与自由度(Degree of freedom, df)所计算的组间与组内均方(Mean of square,MS)估计出F值和P值，结合检验水准
+α=0.05
+判断检验结果。 若有统计学意义( P值≤0.05 )，则拒绝原假设 H0(μ0=μ1=μ2=μ3
+=⋯) ，接受 H1 ( μ 不完全相等)，即各样本不是来自不完全相同的总体； 反之，若没有统计学意义( P值&gt;0.05 )，则不拒绝原假设 H
+0(μ0=μ1=μ2=μ3=⋯)，即还不能确定各样本是来自不完全相同的总体；</p>
+<div id="f分布" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> F分布</h2>
+<p>F分布定义是设 X、 Y为两个独立的随机变量，
+X服从自由度为k1的卡方分布，Y服从自由度为k2的卡方分布，这两个独立的卡方分布除以各自的自由度后的比率这一统计量的分布，即服从F-分布（F-distribution）。</p>
+<p>在R语言中。F-分布也有几个与Z分布，t分布基本函数类似的工具函数，分别是df()，pf()，qf()和rf()。</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="多个样本均数比较的方差分析.html#cb1-1" aria-hidden="true" tabindex="-1"></a>f_val <span class="ot">=</span> <span class="fl">2.2</span></span>
+<span id="cb1-2"><a href="多个样本均数比较的方差分析.html#cb1-2" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">=</span> <span class="dv">10</span></span>
+<span id="cb1-3"><a href="多个样本均数比较的方差分析.html#cb1-3" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">=</span> <span class="dv">20</span></span>
+<span id="cb1-4"><a href="多个样本均数比较的方差分析.html#cb1-4" aria-hidden="true" tabindex="-1"></a>q_seq <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.999</span>)</span>
+<span id="cb1-5"><a href="多个样本均数比较的方差分析.html#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="多个样本均数比较的方差分析.html#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">df</span>(f_val, <span class="at">df1 =</span> df1, <span class="at">df2 =</span> df2)</span></code></pre></div>
+<pre><code>## [1] 0.1075686</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="多个样本均数比较的方差分析.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pf</span>(f_val, <span class="at">df =</span> df1, <span class="at">df2 =</span> df2, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## [1] 0.9359861</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="多个样本均数比较的方差分析.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qf</span>(q_seq, <span class="at">df1 =</span> df1, <span class="at">df2 =</span> df2, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## [1] 0.6563936 0.9662639 1.3994874 5.0752462</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="多个样本均数比较的方差分析.html#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rf</span>(<span class="dv">100000</span>, <span class="at">df1 =</span> df1, <span class="at">df2 =</span> df2)</span>
+<span id="cb7-2"><a href="多个样本均数比较的方差分析.html#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(x, <span class="at">col=</span><span class="st">&quot;#A8D6FF&quot;</span>,</span>
+<span id="cb7-3"><a href="多个样本均数比较的方差分析.html#cb7-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="st">&#39;Scott&#39;</span>, <span class="at">freq =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb7-4"><a href="多个样本均数比较的方差分析.html#cb7-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">3</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb7-5"><a href="多个样本均数比较的方差分析.html#cb7-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&#39;&#39;</span>, <span class="at">main =</span> <span class="st">&#39;Histogram for a F-distribution with df1=10, df2=20&#39;</span>, <span class="at">cex.main=</span><span class="fl">0.9</span>)</span>
+<span id="cb7-6"><a href="多个样本均数比较的方差分析.html#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="多个样本均数比较的方差分析.html#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">df</span>(x, <span class="at">df1 =</span> df1, <span class="at">df2 =</span> df2), <span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">3</span>, <span class="at">n =</span> <span class="dv">10000</span>, <span class="at">col=</span> <span class="st">&#39;red&#39;</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">add =</span> T)</span></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-1"></span>
+<img src="R语言与医学统计学_files/figure-html/unnamed-chunk-1-1.png" alt="F-分布的概率密度曲线测试" width="672" />
+<p class="caption">
+图 4.1: F-分布的概率密度曲线测试
+</p>
+</div>
+</div>
+<div id="f检验的分类原理及应用" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> F检验的分类、原理及应用</h2>
+<p>按方差分析的基本运算概念，依照所感兴趣的因子数量而可分三大类：</p>
+<pre><code> 1. 单因子方差分析(One-way ANOVA)
+ 2. 双因子方差分析(Two-way ANOVA)
+ 3. 多因子方差分析(Multi-way ANOVA)</code></pre>
+<p>如果依照因子的特性不同而有三种型态，分别是：</p>
+<pre><code>1. 固定效应方差分析(Fixed-effect ANOVA)
+2. 随机效应方差分析(Random-effect ANOVA)
+3. 混合效应方差分析(Mixed-effect ANOVA)</code></pre>
+<p>一般的，按照因子数量的分类进行区分使用情况比较常见，这里借用单因素方差分析(One-way ANOVA)介绍方差分析的基本思想</p>
+<p>ANOVA通过分析方差来推断均值是否和总体有显著性差异(注意：虽然叫做方差分析，但是它的目的是检验每个组的平均数是否相同)。 ANOVA把方差分为处理因素(Treatment effect，真实差异)和误差(Error effect，抽样误差或个体差异)两个来源，两个方差的比值服从F分布，因为方差本身 就是个体和均值差平方和，所以对方差组成的分析能够反映均值的差异。处理效应(Treatment effect)是不同组的均值间的差异，误差(Error effect)是组内 个体间的差异，习惯性地称前者为组间(Between)差异，后者为组内(Wthin)差异。</p>
+<p>例如，在工业生产或实验研究中，为了比较药物X，Y，Z对治疗某疾病的疗效，我们将实验对象分成三组，分别记录服用X，Y，Z三种药物的治疗效果，并依次得到三组样本如下：</p>
+<pre><code>     X1,X2,X3,⋯,Xn1;
+
+     Y1,Y2,Y3,⋯,Yn2;
+
+     Z1,Z2,Z3,⋯,Zn3;</code></pre>
+<p>通过这些实验数据，我们希望回答：①三种药物对治疗该疾病有没有显著差异；②如果有差异，哪种药物治疗效果最好？</p>
+<p>这个例子中，药物称为处理因素，X，Y，Z称为该因素的水平。这个实验只涉及单个处理因素——“药物”，我们称之为单因素实验，对应的方差分析处理叫单因子方差分析(One-way ANOVA)。此外，如果比较不同的药物和 剂量对疗效的影响，这就是双因素实验，对应的方差分析叫双因子方差分析(Two-way ANOVA)，由此类似可推广到多因素实验和多因子方差分析(Multi-way ANOVA)。</p>
+<div id="f检验的前提和应用" class="section level3" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> F检验的前提和应用</h3>
+<div id="前提" class="section level4" number="4.2.1.1">
+<h4><span class="header-section-number">4.2.1.1</span> 前提</h4>
+<p>F-检验是建立在一些假设基础上的，如果你的实验不能满足F-检验的假设，那你需要考虑别的分析方法或者改变实验设计。F-检验有主要有以下3个假设：</p>
+<pre><code>1. 方差的齐性，可以理解为每组样本背后的总体(也叫族群)都有相同的方差
+2. 族群遵循正态分布
+3. 每一次抽样都是独立的，比如每个病人只能提供一个数据。对于一些一个样本需要提供多个数据的情况，有其他相应的F检验方法。</code></pre>
+<div id="应用" class="section level5" number="4.2.1.1.1">
+<h5><span class="header-section-number">4.2.1.1.1</span> 应用</h5>
+<p>F检验的主要有如下几种：</p>
+<ol style="list-style-type: decimal">
+<li><a href="推论统计.html#方差齐性检验">方差齐性检验(F-test of equality of variances)</a></li>
+<li>方差分析(Analysis of Variance, ANOVA)</li>
+<li>线性回归方程整体的显著性检验</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="单因子方差分析" class="section level3" number="4.2.2">
+<h3><span class="header-section-number">4.2.2</span> 单因子方差分析</h3>
+<p>完全随机设计(Completely random design)是采用完全随机化的分组方法，将全部实验对象分配到g个组(水平组)，各组按照设计因素(单因子方差分析,One-way ANOVA) 分别接受不同水平的处理，实验结束后比较各组均数之间的差别有无统计学意义，推论因素的效应。</p>
+<p>注意的是，当方差不齐的是否，可以使用oneway.test()函数进行F检验，设置var.equal为FALSE， 此时即为 _Welch_检验。</p>
+<p>使用《医学统计学》中的案例4-2的数据在R中进行完全随机设计资料的方差分析测试</p>
+<p>例4-2 某医生为研究一种降血脂新药的疗效，按统一纳入标准纳入了120名高血脂的患者，采用完全随机设计将患者分为4组（a:安慰剂；b：低剂量；c：中计量；d：高计量），进行双盲试验，6周后测得低密度脂蛋白结果，问四组患者总体低密度脂蛋白含量有无差别？</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="多个样本均数比较的方差分析.html#cb12-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">3.53</span>,<span class="fl">4.59</span>,<span class="fl">4.34</span>,<span class="fl">2.66</span>,<span class="fl">3.59</span>,<span class="fl">3.13</span>,<span class="fl">2.64</span>,<span class="fl">2.56</span>,<span class="fl">3.50</span>,<span class="fl">3.25</span>,</span>
+<span id="cb12-2"><a href="多个样本均数比较的方差分析.html#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fl">3.30</span>,<span class="fl">4.04</span>,<span class="fl">3.53</span>,<span class="fl">3.56</span>,<span class="fl">3.85</span>,<span class="fl">4.07</span>,<span class="fl">3.52</span>,<span class="fl">3.93</span>,<span class="fl">4.19</span>,<span class="fl">2.96</span>,</span>
+<span id="cb12-3"><a href="多个样本均数比较的方差分析.html#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fl">1.37</span>,<span class="fl">3.93</span>,<span class="fl">2.33</span>,<span class="fl">2.98</span>,<span class="fl">4.00</span>,<span class="fl">3.55</span>,<span class="fl">2.96</span>,<span class="fl">4.30</span>,<span class="fl">4.16</span>,<span class="fl">2.59</span>)</span>
+<span id="cb12-4"><a href="多个样本均数比较的方差分析.html#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="多个样本均数比较的方差分析.html#cb12-5" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">2.42</span>,<span class="fl">3.36</span>,<span class="fl">4.32</span>,<span class="fl">2.34</span>,<span class="fl">2.68</span>,<span class="fl">2.95</span>,<span class="fl">1.56</span>,<span class="fl">3.11</span>,<span class="fl">1.81</span>,<span class="fl">1.77</span>,</span>
+<span id="cb12-6"><a href="多个样本均数比较的方差分析.html#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fl">1.98</span>,<span class="fl">2.63</span>,<span class="fl">2.86</span>,<span class="fl">2.93</span>,<span class="fl">2.17</span>,<span class="fl">2.72</span>,<span class="fl">2.65</span>,<span class="fl">2.22</span>,<span class="fl">2.90</span>,<span class="fl">2.97</span>,</span>
+<span id="cb12-7"><a href="多个样本均数比较的方差分析.html#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="fl">2.36</span>,<span class="fl">2.56</span>,<span class="fl">2.52</span>,<span class="fl">2.27</span>,<span class="fl">2.98</span>,<span class="fl">3.72</span>,<span class="fl">2.80</span>,<span class="fl">3.57</span>,<span class="fl">4.02</span>,<span class="fl">2.31</span>)</span>
+<span id="cb12-8"><a href="多个样本均数比较的方差分析.html#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="多个样本均数比较的方差分析.html#cb12-9" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">2.86</span>,<span class="fl">2.28</span>,<span class="fl">2.39</span>,<span class="fl">2.28</span>,<span class="fl">2.48</span>,<span class="fl">2.28</span>,<span class="fl">3.21</span>,<span class="fl">2.23</span>,<span class="fl">2.32</span>,<span class="fl">2.68</span>,</span>
+<span id="cb12-10"><a href="多个样本均数比较的方差分析.html#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="fl">2.66</span>,<span class="fl">2.32</span>,<span class="fl">2.61</span>,<span class="fl">3.64</span>,<span class="fl">2.58</span>,<span class="fl">3.65</span>,<span class="fl">2.66</span>,<span class="fl">3.68</span>,<span class="fl">2.65</span>,<span class="fl">3.02</span>,</span>
+<span id="cb12-11"><a href="多个样本均数比较的方差分析.html#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="fl">3.48</span>,<span class="fl">2.42</span>,<span class="fl">2.41</span>,<span class="fl">2.66</span>,<span class="fl">3.29</span>,<span class="fl">2.70</span>,<span class="fl">3.04</span>,<span class="fl">2.81</span>,<span class="fl">1.97</span>,<span class="fl">1.68</span>)</span>
+<span id="cb12-12"><a href="多个样本均数比较的方差分析.html#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="多个样本均数比较的方差分析.html#cb12-13" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.89</span>,<span class="fl">1.06</span>,<span class="fl">1.08</span>,<span class="fl">1.27</span>,<span class="fl">1.63</span>,<span class="fl">1.89</span>,<span class="fl">1.19</span>,<span class="fl">2.17</span>,<span class="fl">2.28</span>,<span class="fl">1.72</span>,</span>
+<span id="cb12-14"><a href="多个样本均数比较的方差分析.html#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="fl">1.98</span>,<span class="fl">1.74</span>,<span class="fl">2.16</span>,<span class="fl">3.37</span>,<span class="fl">2.97</span>,<span class="fl">1.69</span>,<span class="fl">0.94</span>,<span class="fl">2.11</span>,<span class="fl">2.81</span>,<span class="fl">2.52</span>,</span>
+<span id="cb12-15"><a href="多个样本均数比较的方差分析.html#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="fl">1.31</span>,<span class="fl">2.51</span>,<span class="fl">1.88</span>,<span class="fl">1.41</span>,<span class="fl">3.19</span>,<span class="fl">1.92</span>,<span class="fl">2.47</span>,<span class="fl">1.02</span>,<span class="fl">2.10</span>,<span class="fl">3.71</span>)</span>
+<span id="cb12-16"><a href="多个样本均数比较的方差分析.html#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="多个样本均数比较的方差分析.html#cb12-17" aria-hidden="true" tabindex="-1"></a>ldlc <span class="ot">&lt;-</span> <span class="fu">cbind</span>(a,b,c,d)</span>
+<span id="cb12-18"><a href="多个样本均数比较的方差分析.html#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span>
+<span id="cb12-19"><a href="多个样本均数比较的方差分析.html#cb12-19" aria-hidden="true" tabindex="-1"></a>ldlc <span class="ot">&lt;-</span> <span class="fu">melt</span>(ldlc,</span>
+<span id="cb12-20"><a href="多个样本均数比较的方差分析.html#cb12-20" aria-hidden="true" tabindex="-1"></a>             <span class="at">id.vars =</span> <span class="fu">c</span>(<span class="st">&#39;&#39;</span>),</span>
+<span id="cb12-21"><a href="多个样本均数比较的方差分析.html#cb12-21" aria-hidden="true" tabindex="-1"></a>             <span class="at">value.name =</span> <span class="st">&#39;低密度脂蛋白&#39;</span>)</span>
+<span id="cb12-22"><a href="多个样本均数比较的方差分析.html#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plyr)</span>
+<span id="cb12-23"><a href="多个样本均数比较的方差分析.html#cb12-23" aria-hidden="true" tabindex="-1"></a>ldlc <span class="ot">&lt;-</span> <span class="fu">rename</span>(ldlc,</span>
+<span id="cb12-24"><a href="多个样本均数比较的方差分析.html#cb12-24" aria-hidden="true" tabindex="-1"></a>               <span class="fu">c</span>(<span class="at">Var2=</span><span class="st">&#39;分组&#39;</span>))</span>
+<span id="cb12-25"><a href="多个样本均数比较的方差分析.html#cb12-25" aria-hidden="true" tabindex="-1"></a>序号 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">120</span>)</span>
+<span id="cb12-26"><a href="多个样本均数比较的方差分析.html#cb12-26" aria-hidden="true" tabindex="-1"></a>ldlc <span class="ot">&lt;-</span> <span class="fu">cbind</span>(ldlc,序号)</span>
+<span id="cb12-27"><a href="多个样本均数比较的方差分析.html#cb12-27" aria-hidden="true" tabindex="-1"></a>ldlc <span class="ot">&lt;-</span> <span class="fu">subset</span>(ldlc,<span class="at">select =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb12-28"><a href="多个样本均数比较的方差分析.html#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(ldlc)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    120 obs. of  3 variables:
+##  $ 分组        : Factor w/ 4 levels &quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ 低密度脂蛋白: num  3.53 4.59 4.34 2.66 3.59 3.13 2.64 2.56 3.5 3.25 ...
+##  $ 序号        : int  1 2 3 4 5 6 7 8 9 10 ...</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="多个样本均数比较的方差分析.html#cb14-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">library</span>(reactable)</span>
+<span id="cb14-2"><a href="多个样本均数比较的方差分析.html#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">reactable</span>(</span>
+<span id="cb14-3"><a href="多个样本均数比较的方差分析.html#cb14-3" aria-hidden="true" tabindex="-1"></a>  ldlc[<span class="dv">1</span><span class="sc">:</span><span class="dv">120</span>, ],</span>
+<span id="cb14-4"><a href="多个样本均数比较的方差分析.html#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">height =</span> <span class="dv">270</span>,</span>
+<span id="cb14-5"><a href="多个样本均数比较的方差分析.html#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">striped =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb14-6"><a href="多个样本均数比较的方差分析.html#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">defaultColDef =</span> <span class="fu">colDef</span>(</span>
+<span id="cb14-7"><a href="多个样本均数比较的方差分析.html#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">footer =</span> <span class="cf">function</span>(values, name) htmltools<span class="sc">::</span><span class="fu">div</span>(name, <span class="at">style =</span> <span class="fu">list</span>(<span class="at">fontWeight =</span> <span class="dv">600</span>))</span>
+<span id="cb14-8"><a href="多个样本均数比较的方差分析.html#cb14-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb14-9"><a href="多个样本均数比较的方差分析.html#cb14-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div id="htmlwidget-d39d903ac662a2b469e4" class="reactable html-widget" style="width:auto;height:270px;"></div>
+<script type="application/json" data-for="htmlwidget-d39d903ac662a2b469e4">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"分组":["a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","c","c","c","c","c","c","c","c","c","c","c","c","c","c","c","c","c","c","c","c","c","c","c","c","c","c","c","c","c","c","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d"],"低密度脂蛋白":[3.53,4.59,4.34,2.66,3.59,3.13,2.64,2.56,3.5,3.25,3.3,4.04,3.53,3.56,3.85,4.07,3.52,3.93,4.19,2.96,1.37,3.93,2.33,2.98,4,3.55,2.96,4.3,4.16,2.59,2.42,3.36,4.32,2.34,2.68,2.95,1.56,3.11,1.81,1.77,1.98,2.63,2.86,2.93,2.17,2.72,2.65,2.22,2.9,2.97,2.36,2.56,2.52,2.27,2.98,3.72,2.8,3.57,4.02,2.31,2.86,2.28,2.39,2.28,2.48,2.28,3.21,2.23,2.32,2.68,2.66,2.32,2.61,3.64,2.58,3.65,2.66,3.68,2.65,3.02,3.48,2.42,2.41,2.66,3.29,2.7,3.04,2.81,1.97,1.68,0.89,1.06,1.08,1.27,1.63,1.89,1.19,2.17,2.28,1.72,1.98,1.74,2.16,3.37,2.97,1.69,0.94,2.11,2.81,2.52,1.31,2.51,1.88,1.41,3.19,1.92,2.47,1.02,2.1,3.71],"序号":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120]},"columns":[{"accessor":"分组","name":"分组","type":"factor","footer":{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["分组"]}},{"accessor":"低密度脂蛋白","name":"低密度脂蛋白","type":"numeric","footer":{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["低密度脂蛋白"]}},{"accessor":"序号","name":"序号","type":"numeric","footer":{"name":"div","attribs":{"style":{"fontWeight":600}},"children":["序号"]}}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"striped":true,"height":"270px","dataKey":"e82c60bd4d6415b90d269adebfd209d0","key":"e82c60bd4d6415b90d269adebfd209d0"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="多个样本均数比较的方差分析.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#使用tableone包计算</span></span>
+<span id="cb15-2"><a href="多个样本均数比较的方差分析.html#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co">#install.package(tableone)</span></span>
+<span id="cb15-3"><a href="多个样本均数比较的方差分析.html#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tableone)</span>
+<span id="cb15-4"><a href="多个样本均数比较的方差分析.html#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(ldlc<span class="sc">$</span>低密度脂蛋白)<span class="co">#服从正态</span></span></code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  ldlc$低密度脂蛋白
+## W = 0.98765, p-value = 0.3495</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="多个样本均数比较的方差分析.html#cb17-1" aria-hidden="true" tabindex="-1"></a>ldlc_var <span class="ot">&lt;-</span> <span class="fu">CreateTableOne</span>(ldlc,<span class="at">vars =</span> <span class="fu">c</span>(<span class="st">&#39;低密度脂蛋白&#39;</span>),<span class="at">strata =</span> <span class="st">&#39;分组&#39;</span>)</span>
+<span id="cb17-2"><a href="多个样本均数比较的方差分析.html#cb17-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">print</span>(ldlc_var)<span class="co">#若不服从正态nonnormal = c(&#39;低密度脂蛋白&#39;)</span></span></code></pre></div>
+<pre><code>##                           Stratified by 分组
+##                            a           b           c           d          
+##   n                          30          30          30          30       
+##   低密度脂蛋白 (mean (SD)) 3.43 (0.72) 2.72 (0.64) 2.70 (0.50) 1.97 (0.75)
+##                           Stratified by 分组
+##                            p      test
+##   n                                   
+##   低密度脂蛋白 (mean (SD)) &lt;0.001</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="多个样本均数比较的方差分析.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#对不规则数组应用指定的函数，快速计算每组的均值，方差，和样本大小</span></span>
+<span id="cb19-2"><a href="多个样本均数比较的方差分析.html#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(ldlc<span class="sc">$</span>低密度脂蛋白,ldlc<span class="sc">$</span>分组,mean)</span></code></pre></div>
+<pre><code>##        a        b        c        d 
+## 3.430333 2.715333 2.698000 1.966333</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="多个样本均数比较的方差分析.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(ldlc<span class="sc">$</span>低密度脂蛋白,ldlc<span class="sc">$</span>分组,var)</span></code></pre></div>
+<pre><code>##         a         b         c         d 
+## 0.5114033 0.4072464 0.2471752 0.5571757</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="多个样本均数比较的方差分析.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="do">## 使用oneway.test()函数进行F检验，注意var.equal 默认是 FALSE，也就是说方差可以不相等(此时即为Welch检验)，但是提供的信息相对较少。</span></span>
+<span id="cb23-2"><a href="多个样本均数比较的方差分析.html#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">oneway.test</span>(ldlc<span class="sc">$</span>低密度脂蛋白 <span class="sc">~</span> ldlc<span class="sc">$</span>分组,<span class="at">var.equal=</span>T)</span></code></pre></div>
+<pre><code>## 
+##  One-way analysis of means
+## 
+## data:  ldlc$低密度脂蛋白 and ldlc$分组
+## F = 24.884, num df = 3, denom df = 116, p-value = 1.674e-12</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="多个样本均数比较的方差分析.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">oneway.test</span>(ldlc<span class="sc">$</span>低密度脂蛋白 <span class="sc">~</span> ldlc<span class="sc">$</span>分组,<span class="at">var.equal=</span>F)</span></code></pre></div>
+<pre><code>## 
+##  One-way analysis of means (not assuming equal variances)
+## 
+## data:  ldlc$低密度脂蛋白 and ldlc$分组
+## F = 19.665, num df = 3.000, denom df = 63.592, p-value = 3.924e-09</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="多个样本均数比较的方差分析.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#使用aov()函数进行F检验，可以获取完整地参数信息，这里要注意aov()里面提供的group信息</span></span>
+<span id="cb27-2"><a href="多个样本均数比较的方差分析.html#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co">#最好不要是数值形式的分组，否则结果容易当作线性回归处理，导致与预期不一致，可以用</span></span>
+<span id="cb27-3"><a href="多个样本均数比较的方差分析.html#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co">#as.character()将数字转换为字串形式的再使用</span></span>
+<span id="cb27-4"><a href="多个样本均数比较的方差分析.html#cb27-4" aria-hidden="true" tabindex="-1"></a>ldlc_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(ldlc<span class="sc">$</span>低密度脂蛋白 <span class="sc">~</span> <span class="fu">as.character</span>(ldlc<span class="sc">$</span>分组))</span>
+<span id="cb27-5"><a href="多个样本均数比较的方差分析.html#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="多个样本均数比较的方差分析.html#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ldlc_aov)</span></code></pre></div>
+<pre><code>##                          Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+## as.character(ldlc$分组)   3  32.16  10.719   24.88 1.67e-12 ***
+## Residuals               116  49.97   0.431                     
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="多个样本均数比较的方差分析.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="do">##其他几个查看aov()对象的工具</span></span>
+<span id="cb29-2"><a href="多个样本均数比较的方差分析.html#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.aov</span>(ldlc_aov)</span></code></pre></div>
+<pre><code>##                          Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+## as.character(ldlc$分组)   3  32.16  10.719   24.88 1.67e-12 ***
+## Residuals               116  49.97   0.431                     
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="多个样本均数比较的方差分析.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.lm</span>(ldlc_aov)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## aov(formula = ldlc$低密度脂蛋白 ~ as.character(ldlc$分组))
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -2.0603 -0.4180 -0.0380  0.4009  1.7437 
+## 
+## Coefficients:
+##                          Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)                3.4303     0.1198  28.628  &lt; 2e-16 ***
+## as.character(ldlc$分组)b  -0.7150     0.1695  -4.219 4.89e-05 ***
+## as.character(ldlc$分组)c  -0.7323     0.1695  -4.322 3.29e-05 ***
+## as.character(ldlc$分组)d  -1.4640     0.1695  -8.639 3.58e-14 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.6563 on 116 degrees of freedom
+## Multiple R-squared:  0.3916, Adjusted R-squared:  0.3758 
+## F-statistic: 24.88 on 3 and 116 DF,  p-value: 1.674e-12</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="多个样本均数比较的方差分析.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(ldlc_aov)</span></code></pre></div>
+<pre><code>##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = ldlc$低密度脂蛋白 ~ as.character(ldlc$分组))
+## 
+## $`as.character(ldlc$分组)`
+##            diff        lwr        upr     p adj
+## b-a -0.71500000 -1.1567253 -0.2732747 0.0002825
+## c-a -0.73233333 -1.1740587 -0.2906080 0.0001909
+## d-a -1.46400000 -1.9057253 -1.0222747 0.0000000
+## c-b -0.01733333 -0.4590587  0.4243920 0.9996147
+## d-b -0.74900000 -1.1907253 -0.3072747 0.0001302
+## d-c -0.73166667 -1.1733920 -0.2899413 0.0001938</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="多个样本均数比较的方差分析.html#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(ldlc<span class="sc">$</span>低密度脂蛋白 <span class="sc">~</span> ldlc<span class="sc">$</span>分组,<span class="at">col=</span><span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>),<span class="at">ylab=</span><span class="st">&quot;低密度脂蛋白 &quot;</span>,<span class="at">xlab=</span><span class="st">&quot;分组&quot;</span>)</span></code></pre></div>
+<p><img src="R语言与医学统计学_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="随机区组设计方差分析" class="section level3" number="4.2.3">
+<h3><span class="header-section-number">4.2.3</span> 随机区组设计方差分析</h3>
+<p>随机区组设计(Randomized block design)又称为配伍组设计，是配对设计的扩展。具体做法是:先按影响实验结果的 非处理因素(如性别、体重、年龄、职业、病情、病程等)将实验对象配成区组(Block)，再分 别将各区组内的实验对象 随机分配到各处理组或对照组。与完全随机设计相比，随机区组设计的特点是 随机分配的次数要重复多次，每次随机分 配都对同一个区组内的实验对象进行，<strong>且各个处理组的实验对象数量相同，区组内均衡。</strong>在进行统计分析时，将区组 变异离均差平方和从完全随机设计的组內离均差平和 中分离出来，从而减小组内离均差平方和(误差平方和)，提高统 计检验效率。若将区组作为另一处理因素 的不同水平，随机区组设计等同于无重复观察的两因素设计(双因子方差分析,Two-way ANOVA)</p>
+<p>随机区组设计资料在进行统计分析时，需根据数据的分布特征选择方法，对于正态分布且方差齐同的资料，采用双向分类的 方差分析(Two-way classification ANOVA)或配对t检验(g=2)；当不满足方差分析或t检验条件时，可进行变量变换后采 用双向分类的方差分析或采用Friedman M检验。</p>
+<p>双向ANOVA分析是单向ANOVA的扩展，分析两个因素，我们称之为A和B，假如A有i(1<span class="math inline">\(_g\)</span>)个水平(或叫区组)，B有j(1<span class="math inline">\(_n\)</span>)个水平(处理因素的水平)， 且每个分组的样本数目要一致，则共有 N=ng 样本个体，记总均数为 <span class="math inline">\(\overline x\)</span>
+，各处理组均数分别是 <span class="math inline">\(\overline x\)</span><span class="math inline">\(_i\)</span> ， 各区组均数为 <span class="math inline">\(\overline x\)</span><span class="math inline">\(_i\)</span>，双向ANOVA的实验数据有四个不同的变异：</p>
+<ol style="list-style-type: decimal">
+<li><p>总变异，它反应所有观测值之间的变异，总离均差平方和：SS<span class="math inline">\(_t\)</span><span class="math inline">\(_o\)</span><span class="math inline">\(_t\)</span><span class="math inline">\(_a\)</span><span class="math inline">\(_l\)</span></p></li>
+<li><p>处理组间变异，它反应处理因素的不同水平作用和随机误差产生的变异：SS<span class="math inline">\(_t\)</span><span class="math inline">\(_r\)</span><span class="math inline">\(_e\)</span><span class="math inline">\(_a\)</span><span class="math inline">\(_t\)</span></p></li>
+<li><p>区组间变异，它反应不同区组作用和随机误差产生的变异：SS<span class="math inline">\(_b\)</span><span class="math inline">\(_l\)</span><span class="math inline">\(_o\)</span><span class="math inline">\(_c\)</span><span class="math inline">\(_k\)</span></p></li>
+<li><p>误差变异，它是完全由随机误差产生的变异： SS<span class="math inline">\(_e\)</span><span class="math inline">\(_r\)</span><span class="math inline">\(_r\)</span><span class="math inline">\(_o\)</span></p></li>
+</ol>
+<p>对总离均差平方和及自由度的分解关系为：</p>
+<p>SS<span class="math inline">\(_t\)</span><span class="math inline">\(_o\)</span><span class="math inline">\(_t\)</span><span class="math inline">\(_a\)</span><span class="math inline">\(_l\)</span>=SS<span class="math inline">\(_t\)</span><span class="math inline">\(_r\)</span><span class="math inline">\(_e\)</span><span class="math inline">\(_a\)</span><span class="math inline">\(_t\)</span>+SS<span class="math inline">\(_b\)</span><span class="math inline">\(_l\)</span><span class="math inline">\(_o\)</span><span class="math inline">\(_c\)</span><span class="math inline">\(_k\)</span>+SS<span class="math inline">\(_e\)</span><span class="math inline">\(_r\)</span><span class="math inline">\(_r\)</span><span class="math inline">\(_o\)</span></p>
+<p>v<span class="math inline">\(_t\)</span><span class="math inline">\(_o\)</span><span class="math inline">\(_t\)</span><span class="math inline">\(_a\)</span><span class="math inline">\(_l\)</span>=v<span class="math inline">\(_t\)</span><span class="math inline">\(_r\)</span><span class="math inline">\(_e\)</span><span class="math inline">\(_a\)</span><span class="math inline">\(_t\)</span>+v<span class="math inline">\(_b\)</span><span class="math inline">\(_l\)</span><span class="math inline">\(_o\)</span><span class="math inline">\(_c\)</span><span class="math inline">\(_k\)</span>+v<span class="math inline">\(_e\)</span><span class="math inline">\(_r\)</span><span class="math inline">\(_r\)</span><span class="math inline">\(_o\)</span></p>
+<p>双向ANOVA能够同时检验3个零假设：</p>
+<ol style="list-style-type: decimal">
+<li><p>单独考虑A因素，总体均值间没有差别，这相当于对A因子进行单向ANOVA</p></li>
+<li><p>单独考虑B因素，总体均值间没有差别，这相当于对B因子进行单向ANOVA</p></li>
+<li><p>A和B两个因素，没有相互作用，相当于使用二联表进行独立性分析</p></li>
+</ol>
+<p>使用《医学统计学》中的 案例4-4 的数据在R中进行双因子方差分析的测试。</p>
+<p>例4-4 某研究者采用随机区组设计进行实验，比较三种抗癌药物对小白鼠肉瘤的抑瘤效果，先将15只染有肉瘤小白鼠按体重大小配成5个区组每个区组内3只小白鼠随机接受三种抗癌药物，以肉瘤的重量为指标。问三种不同药物的抑瘤效果有无差别?</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="多个样本均数比较的方差分析.html#cb36-1" aria-hidden="true" tabindex="-1"></a>quzu <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span>
+<span id="cb36-2"><a href="多个样本均数比较的方差分析.html#cb36-2" aria-hidden="true" tabindex="-1"></a>drug_a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.82</span>,<span class="fl">0.73</span>,<span class="fl">0.43</span>,<span class="fl">0.41</span>,<span class="fl">0.68</span>)</span>
+<span id="cb36-3"><a href="多个样本均数比较的方差分析.html#cb36-3" aria-hidden="true" tabindex="-1"></a>drug_b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.65</span>,<span class="fl">0.54</span>,<span class="fl">0.34</span>,<span class="fl">0.21</span>,<span class="fl">0.43</span>)</span>
+<span id="cb36-4"><a href="多个样本均数比较的方差分析.html#cb36-4" aria-hidden="true" tabindex="-1"></a>drug_c <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.51</span>,<span class="fl">0.23</span>,<span class="fl">0.28</span>,<span class="fl">0.31</span>,<span class="fl">0.24</span>)</span>
+<span id="cb36-5"><a href="多个样本均数比较的方差分析.html#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-6"><a href="多个样本均数比较的方差分析.html#cb36-6" aria-hidden="true" tabindex="-1"></a>drug <span class="ot">&lt;-</span> <span class="fu">cbind</span>(quzu,drug_a,drug_b,drug_c)</span>
+<span id="cb36-7"><a href="多个样本均数比较的方差分析.html#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span>
+<span id="cb36-8"><a href="多个样本均数比较的方差分析.html#cb36-8" aria-hidden="true" tabindex="-1"></a>drug <span class="ot">&lt;-</span> <span class="fu">melt</span>(drug,</span>
+<span id="cb36-9"><a href="多个样本均数比较的方差分析.html#cb36-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">id.vars =</span> <span class="fu">c</span>(<span class="st">&#39;&#39;</span>))</span>
+<span id="cb36-10"><a href="多个样本均数比较的方差分析.html#cb36-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plyr)</span>
+<span id="cb36-11"><a href="多个样本均数比较的方差分析.html#cb36-11" aria-hidden="true" tabindex="-1"></a>drug <span class="ot">&lt;-</span> <span class="fu">rename</span>(drug,</span>
+<span id="cb36-12"><a href="多个样本均数比较的方差分析.html#cb36-12" aria-hidden="true" tabindex="-1"></a>               <span class="fu">c</span>(<span class="at">Var1=</span><span class="st">&#39;区组&#39;</span>,<span class="at">Var2=</span><span class="st">&#39;药物&#39;</span>,<span class="at">value =</span> <span class="st">&#39;肿瘤重量&#39;</span>))</span>
+<span id="cb36-13"><a href="多个样本均数比较的方差分析.html#cb36-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-14"><a href="多个样本均数比较的方差分析.html#cb36-14" aria-hidden="true" tabindex="-1"></a>drug <span class="ot">&lt;-</span> drug[<span class="dv">6</span><span class="sc">:</span><span class="dv">20</span>,]</span>
+<span id="cb36-15"><a href="多个样本均数比较的方差分析.html#cb36-15" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(drug)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    15 obs. of  3 variables:
+##  $ 区组    : int  1 2 3 4 5 1 2 3 4 5 ...
+##  $ 药物    : Factor w/ 4 levels &quot;quzu&quot;,&quot;drug_a&quot;,..: 2 2 2 2 2 3 3 3 3 3 ...
+##  $ 肿瘤重量: num  0.82 0.73 0.43 0.41 0.68 0.65 0.54 0.34 0.21 0.43 ...</code></pre>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="多个样本均数比较的方差分析.html#cb38-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">library</span>(reactable)</span>
+<span id="cb38-2"><a href="多个样本均数比较的方差分析.html#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">reactable</span>(</span>
+<span id="cb38-3"><a href="多个样本均数比较的方差分析.html#cb38-3" aria-hidden="true" tabindex="-1"></a>  drug[<span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, ],</span>
+<span id="cb38-4"><a href="多个样本均数比较的方差分析.html#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">height =</span> <span class="dv">250</span>,</span>
+<span id="cb38-5"><a href="多个样本均数比较的方差分析.html#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">striped =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb38-6"><a href="多个样本均数比较的方差分析.html#cb38-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">defaultColDef =</span> <span class="fu">colDef</span>()</span>
+<span id="cb38-7"><a href="多个样本均数比较的方差分析.html#cb38-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div id="htmlwidget-d43f2e9098e2c018c232" class="reactable html-widget" style="width:auto;height:250px;"></div>
+<script type="application/json" data-for="htmlwidget-d43f2e9098e2c018c232">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"区组":[1,2,3,4,5,1,2,3,4,5,1,2,3,4,5],"药物":["drug_a","drug_a","drug_a","drug_a","drug_a","drug_b","drug_b","drug_b","drug_b","drug_b","drug_c","drug_c","drug_c","drug_c","drug_c"],"肿瘤重量":[0.82,0.73,0.43,0.41,0.68,0.65,0.54,0.34,0.21,0.43,0.51,0.23,0.28,0.31,0.24]},"columns":[{"accessor":"区组","name":"区组","type":"numeric"},{"accessor":"药物","name":"药物","type":"factor"},{"accessor":"肿瘤重量","name":"肿瘤重量","type":"numeric"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"striped":true,"height":"250px","dataKey":"6397c166af292f85af013a2840156976","key":"6397c166af292f85af013a2840156976"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="多个样本均数比较的方差分析.html#cb39-1" aria-hidden="true" tabindex="-1"></a>drug_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(肿瘤重量<span class="sc">~</span><span class="fu">factor</span>(drug<span class="sc">$</span>区组)<span class="sc">+</span>药物, drug)</span>
+<span id="cb39-2"><a href="多个样本均数比较的方差分析.html#cb39-2" aria-hidden="true" tabindex="-1"></a>drug_aov</span></code></pre></div>
+<pre><code>## Call:
+##    aov(formula = 肿瘤重量 ~ factor(drug$区组) + 药物, data = drug)
+## 
+## Terms:
+##                 factor(drug$区组)    药物 Residuals
+## Sum of Squares            0.22836 0.22800   0.07640
+## Deg. of Freedom                 4       2         8
+## 
+## Residual standard error: 0.0977241
+## Estimated effects may be unbalanced</code></pre>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="多个样本均数比较的方差分析.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(drug_aov)</span></code></pre></div>
+<pre><code>##                   Df Sum Sq Mean Sq F value  Pr(&gt;F)   
+## factor(drug$区组)  4 0.2284 0.05709   5.978 0.01579 * 
+## 药物               2 0.2280 0.11400  11.937 0.00397 **
+## Residuals          8 0.0764 0.00955                   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="多个样本均数比较的方差分析.html#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.aov</span>(drug_aov)</span></code></pre></div>
+<pre><code>##                   Df Sum Sq Mean Sq F value  Pr(&gt;F)   
+## factor(drug$区组)  4 0.2284 0.05709   5.978 0.01579 * 
+## 药物               2 0.2280 0.11400  11.937 0.00397 **
+## Residuals          8 0.0764 0.00955                   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="多个样本均数比较的方差分析.html#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.lm</span>(drug_aov)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## aov(formula = 肿瘤重量 ~ factor(drug$区组) + 药物, data = drug)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -0.130 -0.065  0.000  0.065  0.140 
+## 
+## Coefficients:
+##                    Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)         0.82000    0.06676  12.283 1.79e-06 ***
+## factor(drug$区组)2 -0.16000    0.07979  -2.005  0.07987 .  
+## factor(drug$区组)3 -0.31000    0.07979  -3.885  0.00464 ** 
+## factor(drug$区组)4 -0.35000    0.07979  -4.386  0.00233 ** 
+## factor(drug$区组)5 -0.21000    0.07979  -2.632  0.03009 *  
+## 药物drug_b         -0.18000    0.06181  -2.912  0.01952 *  
+## 药物drug_c         -0.30000    0.06181  -4.854  0.00127 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.09772 on 8 degrees of freedom
+## Multiple R-squared:  0.8566, Adjusted R-squared:  0.749 
+## F-statistic: 7.964 on 6 and 8 DF,  p-value: 0.004975</code></pre>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="多个样本均数比较的方差分析.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(drug_aov)</span></code></pre></div>
+<pre><code>##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = 肿瘤重量 ~ factor(drug$区组) + 药物, data = drug)
+## 
+## $`factor(drug$区组)`
+##      diff        lwr         upr     p adj
+## 2-1 -0.16 -0.4356593  0.11565932 0.3428367
+## 3-1 -0.31 -0.5856593 -0.03434068 0.0280132
+## 4-1 -0.35 -0.6256593 -0.07434068 0.0145639
+## 5-1 -0.21 -0.4856593  0.06565932 0.1534877
+## 3-2 -0.15 -0.4256593  0.12565932 0.3969077
+## 4-2 -0.19 -0.4656593  0.08565932 0.2139492
+## 5-2 -0.05 -0.3256593  0.22565932 0.9664118
+## 4-3 -0.04 -0.3156593  0.23565932 0.9849209
+## 5-3  0.10 -0.1756593  0.37565932 0.7239714
+## 5-4  0.14 -0.1356593  0.41565932 0.4562395
+## 
+## $药物
+##                diff        lwr          upr     p adj
+## drug_b-drug_a -0.18 -0.3566076 -0.003392374 0.0461275
+## drug_c-drug_a -0.30 -0.4766076 -0.123392374 0.0032007
+## drug_c-drug_b -0.12 -0.2966076  0.056607626 0.1891619</code></pre>
+<p>根据计算结果，对于处理组间F值为11.937，对应P值是0.004&lt;0.01&lt;α=0.05，因此拒绝处理组间 H0:μ1=μ2=μ3 的原假设，接受 H1 ，即认为 药物的肿瘤生长有统计学意义。同理，区组间的F值为5.978，对应的P值是0.0158&lt;α=0.05，因此拒绝区组间的 H0:μ1=μ2=μ3 的原假设， 接受 H1，即体重对肿瘤生长的影响有统计学意义。</p>
+<p>现在有一个问题，是方差分析的结果可以推断多组样本的总体之间的均值是否都相等，如果不都相等，我怎么知道是具体是怎么不相等的呢？ 详细请看多重比较。(#多重比较)</p>
+</div>
+<div id="拉丁方设计资料的方差分析" class="section level3" number="4.2.4">
+<h3><span class="header-section-number">4.2.4</span> 拉丁方设计资料的方差分析</h3>
+<p>完全随机设计只涉及一个处理因素；随机区组设计涉及一个处理因素、一个区组因素(或称为配伍因素)； 倘若实验研究涉及一个处理因素和两个控制因素，每个因素的类别数或水平数相等，此时可采用拉丁方 设计(Latin square design)来安排实验，将两个控制因素分别安排在拉丁方设计的行和列上。拉丁方 设计是在随机区组设计的基础上发展的，它可多安排一个已知的对实验结果有影响的非处理 因素，增加 了均衡性，减少了误差，提高了效率。</p>
+<p>拉丁方设计资料采用三向分类的ANOVA，由于比较复杂，在分析之前应该理清楚处理组，列区组。行区组的 对应的因素，并理清它们各自的原假设与备择假设，总的来说能够同时检验3个零假设：</p>
+<ol style="list-style-type: decimal">
+<li><p>处理组之间的总体均数都相等</p></li>
+<li><p>列区组之间的总体均数都相等</p></li>
+<li><p>行区组之间的总体均数都相等</p></li>
+</ol>
+<p>使用《医学统计学》中的 案例4-5 的数据在R中进行拉丁方实验设计资料的方差分析测试。</p>
+<p>下面通过例4-5介绍拉丁方设计。
+例4-5某研究者为了比较甲、乙、丙丁戊、己6种药物给家兔注射后产生的皮肤疱疹大小(mm)采用拉丁方设计，选用6只家兔并在每只家兔的6个不同部位进行注射。试作方差分析。其设计步骤如下:
+(1)本研究药物是处理因素，家兔和部位是减少实验误差的控制因素，这三个因素的水平数都为6.从专业上判断因素间相互作用的影响可忽略，故可选择拉丁方设计。
+(2)g=6，选定6x6基本拉丁方。
+(3)行区组代表不同的家兔，列区组代表不同的注射部位，拉丁字母代表不同的药物</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="多个样本均数比较的方差分析.html#cb49-1" aria-hidden="true" tabindex="-1"></a>rabit_num <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>),<span class="dv">6</span>))<span class="co">#家兔编号</span></span>
+<span id="cb49-2"><a href="多个样本均数比较的方差分析.html#cb49-2" aria-hidden="true" tabindex="-1"></a>injection_site <span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>),<span class="dv">6</span>)<span class="co">#注射部位</span></span>
+<span id="cb49-3"><a href="多个样本均数比较的方差分析.html#cb49-3" aria-hidden="true" tabindex="-1"></a>treatment_durg <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;c&#39;</span>,<span class="st">&#39;b&#39;</span>,<span class="st">&#39;e&#39;</span>,<span class="st">&#39;d&#39;</span>,<span class="st">&#39;a&#39;</span>,<span class="st">&#39;f&#39;</span>,<span class="st">&#39;b&#39;</span>,<span class="st">&#39;a&#39;</span>,<span class="st">&#39;d&#39;</span>,<span class="st">&#39;c&#39;</span>,<span class="st">&#39;f&#39;</span>,<span class="st">&#39;e&#39;</span>,<span class="st">&#39;f&#39;</span>,</span>
+<span id="cb49-4"><a href="多个样本均数比较的方差分析.html#cb49-4" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&#39;e&#39;</span>,<span class="st">&#39;b&#39;</span>,<span class="st">&#39;a&#39;</span>,<span class="st">&#39;d&#39;</span>,<span class="st">&#39;c&#39;</span>,<span class="st">&#39;a&#39;</span>,<span class="st">&#39;f&#39;</span>,<span class="st">&#39;c&#39;</span>,<span class="st">&#39;b&#39;</span>,<span class="st">&#39;e&#39;</span>,<span class="st">&#39;d&#39;</span>,<span class="st">&#39;d&#39;</span>,<span class="st">&#39;c&#39;</span>,<span class="st">&#39;f&#39;</span>,<span class="st">&#39;e&#39;</span>,<span class="st">&#39;b&#39;</span>,<span class="st">&#39;a&#39;</span>,<span class="st">&#39;e&#39;</span>,<span class="st">&#39;d&#39;</span>,<span class="st">&#39;a&#39;</span>,<span class="st">&#39;f&#39;</span>,<span class="st">&#39;c&#39;</span>,<span class="st">&#39;b&#39;</span>)<span class="co">#治疗药物</span></span>
+<span id="cb49-5"><a href="多个样本均数比较的方差分析.html#cb49-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-6"><a href="多个样本均数比较的方差分析.html#cb49-6" aria-hidden="true" tabindex="-1"></a>herpes_size <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">87</span>,<span class="dv">75</span>,<span class="dv">81</span>,<span class="dv">75</span>,<span class="dv">84</span>,<span class="dv">66</span>,<span class="dv">73</span>,<span class="dv">81</span>,<span class="dv">87</span>,<span class="dv">85</span>,<span class="dv">64</span>,<span class="dv">79</span>,<span class="dv">73</span>,<span class="dv">73</span>,<span class="dv">74</span>,<span class="dv">78</span>,<span class="dv">73</span>,<span class="dv">77</span>,<span class="dv">77</span>,<span class="dv">68</span>,<span class="dv">69</span>,<span class="dv">74</span>,<span class="dv">76</span>,<span class="dv">73</span>,<span class="dv">64</span>,<span class="dv">64</span>,<span class="dv">72</span>,<span class="dv">76</span>,<span class="dv">70</span>,<span class="dv">81</span>,<span class="dv">75</span>,<span class="dv">77</span>,<span class="dv">82</span>,<span class="dv">61</span>,<span class="dv">82</span>,<span class="dv">61</span>)<span class="co">#疱疹大小</span></span>
+<span id="cb49-7"><a href="多个样本均数比较的方差分析.html#cb49-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-8"><a href="多个样本均数比较的方差分析.html#cb49-8" aria-hidden="true" tabindex="-1"></a>study_4<span class="fl">.5</span><span class="ot">&lt;-</span> <span class="fu">cbind</span>(rabit_num,injection_site,herpes_size,treatment_durg)</span>
+<span id="cb49-9"><a href="多个样本均数比较的方差分析.html#cb49-9" aria-hidden="true" tabindex="-1"></a>study_4<span class="fl">.5</span> <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(study_4<span class="fl">.5</span>)</span>
+<span id="cb49-10"><a href="多个样本均数比较的方差分析.html#cb49-10" aria-hidden="true" tabindex="-1"></a>study_4<span class="fl">.5</span><span class="sc">$</span>rabit_num <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(study_4<span class="fl">.5</span><span class="sc">$</span>rabit_num)</span>
+<span id="cb49-11"><a href="多个样本均数比较的方差分析.html#cb49-11" aria-hidden="true" tabindex="-1"></a>study_4<span class="fl">.5</span><span class="sc">$</span>injection_site <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(study_4<span class="fl">.5</span><span class="sc">$</span>injection_site)</span>
+<span id="cb49-12"><a href="多个样本均数比较的方差分析.html#cb49-12" aria-hidden="true" tabindex="-1"></a>study_4<span class="fl">.5</span><span class="sc">$</span>treatment_durg <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(study_4<span class="fl">.5</span><span class="sc">$</span>treatment_durg)</span>
+<span id="cb49-13"><a href="多个样本均数比较的方差分析.html#cb49-13" aria-hidden="true" tabindex="-1"></a>study_4<span class="fl">.5</span><span class="sc">$</span>herpes_size <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(study_4<span class="fl">.5</span><span class="sc">$</span>herpes_size)</span>
+<span id="cb49-14"><a href="多个样本均数比较的方差分析.html#cb49-14" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(study_4<span class="fl">.5</span>)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    36 obs. of  4 variables:
+##  $ rabit_num     : Factor w/ 6 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,..: 1 1 1 1 1 1 2 2 2 2 ...
+##  $ injection_site: Factor w/ 6 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,..: 1 2 3 4 5 6 1 2 3 4 ...
+##  $ herpes_size   : num  87 75 81 75 84 66 73 81 87 85 ...
+##  $ treatment_durg: Factor w/ 6 levels &quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,..: 3 2 5 4 1 6 2 1 4 3 ...</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="多个样本均数比较的方差分析.html#cb51-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">library</span>(reactable)</span>
+<span id="cb51-2"><a href="多个样本均数比较的方差分析.html#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">reactable</span>(</span>
+<span id="cb51-3"><a href="多个样本均数比较的方差分析.html#cb51-3" aria-hidden="true" tabindex="-1"></a>  study_4<span class="fl">.5</span>[<span class="dv">1</span><span class="sc">:</span><span class="dv">36</span>, ],</span>
+<span id="cb51-4"><a href="多个样本均数比较的方差分析.html#cb51-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">height =</span> <span class="dv">270</span>,</span>
+<span id="cb51-5"><a href="多个样本均数比较的方差分析.html#cb51-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">striped =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb51-6"><a href="多个样本均数比较的方差分析.html#cb51-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">defaultColDef =</span> <span class="fu">colDef</span>()</span>
+<span id="cb51-7"><a href="多个样本均数比较的方差分析.html#cb51-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div id="htmlwidget-c17fed3c41a740f494d1" class="reactable html-widget" style="width:auto;height:270px;"></div>
+<script type="application/json" data-for="htmlwidget-c17fed3c41a740f494d1">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"rabit_num":["1","1","1","1","1","1","2","2","2","2","2","2","3","3","3","3","3","3","4","4","4","4","4","4","5","5","5","5","5","5","6","6","6","6","6","6"],"injection_site":["1","2","3","4","5","6","1","2","3","4","5","6","1","2","3","4","5","6","1","2","3","4","5","6","1","2","3","4","5","6","1","2","3","4","5","6"],"herpes_size":[87,75,81,75,84,66,73,81,87,85,64,79,73,73,74,78,73,77,77,68,69,74,76,73,64,64,72,76,70,81,75,77,82,61,82,61],"treatment_durg":["c","b","e","d","a","f","b","a","d","c","f","e","f","e","b","a","d","c","a","f","c","b","e","d","d","c","f","e","b","a","e","d","a","f","c","b"]},"columns":[{"accessor":"rabit_num","name":"rabit_num","type":"factor"},{"accessor":"injection_site","name":"injection_site","type":"factor"},{"accessor":"herpes_size","name":"herpes_size","type":"numeric"},{"accessor":"treatment_durg","name":"treatment_durg","type":"factor"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"striped":true,"height":"270px","dataKey":"bee948feff42fec2f04d3dee130d6f34","key":"bee948feff42fec2f04d3dee130d6f34"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="多个样本均数比较的方差分析.html#cb52-1" aria-hidden="true" tabindex="-1"></a>study_4<span class="fl">.5</span>_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(herpes_size<span class="sc">~</span>rabit_num<span class="sc">+</span>injection_site<span class="sc">+</span>treatment_durg, study_4<span class="fl">.5</span>)</span>
+<span id="cb52-2"><a href="多个样本均数比较的方差分析.html#cb52-2" aria-hidden="true" tabindex="-1"></a>study_4<span class="fl">.5</span>_aov</span></code></pre></div>
+<pre><code>## Call:
+##    aov(formula = herpes_size ~ rabit_num + injection_site + treatment_durg, 
+##     data = study_4.5)
+## 
+## Terms:
+##                 rabit_num injection_site treatment_durg Residuals
+## Sum of Squares   250.4722        85.4722       667.1389  683.2222
+## Deg. of Freedom         5              5              5        20
+## 
+## Residual standard error: 5.844751
+## Estimated effects may be unbalanced</code></pre>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="多个样本均数比较的方差分析.html#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(study_4<span class="fl">.5</span>_aov)</span></code></pre></div>
+<pre><code>##                Df Sum Sq Mean Sq F value Pr(&gt;F)  
+## rabit_num       5  250.5   50.09   1.466 0.2447  
+## injection_site  5   85.5   17.09   0.500 0.7723  
+## treatment_durg  5  667.1  133.43   3.906 0.0124 *
+## Residuals      20  683.2   34.16                 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>根据计算结果，对于处理组间F值为3.79402，对应P值是0.014&lt;α=0.05，因此拒绝处理组间
+H
+0
+的原假设，接受
+H
+1
+，即认为 6种药物的对疱疹大小的生长影响有统计学意义。同理，家兔间的F值为1.42444，对应的P值是0.258401&gt;α=0.05，因此暂时不能拒绝家兔间的
+H
+0
+的原假设， 即还不能认为疱疹的大小的总体均数不全相等。对于部位间的F值为0.37157，对应的P值是0.862102&gt;α=0.05，因此暂时不能拒绝部位间的
+H
+0
+的原假设， 即还不能认为6个部位的疱疹大小的总体均数不全相等。</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="多个样本均数比较的方差分析.html#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.aov</span>(study_4<span class="fl">.5</span>_aov)</span></code></pre></div>
+<pre><code>##                Df Sum Sq Mean Sq F value Pr(&gt;F)  
+## rabit_num       5  250.5   50.09   1.466 0.2447  
+## injection_site  5   85.5   17.09   0.500 0.7723  
+## treatment_durg  5  667.1  133.43   3.906 0.0124 *
+## Residuals      20  683.2   34.16                 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="多个样本均数比较的方差分析.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.lm</span>(study_4<span class="fl">.5</span>_aov)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## aov(formula = herpes_size ~ rabit_num + injection_site + treatment_durg, 
+##     data = study_4.5)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -9.3889 -2.2222  0.1111  3.9861  6.1111 
+## 
+## Coefficients:
+##                   Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      8.406e+01  3.897e+00  21.572 2.54e-15 ***
+## rabit_num2       1.667e-01  3.374e+00   0.049 0.961098    
+## rabit_num3      -3.333e+00  3.374e+00  -0.988 0.335047    
+## rabit_num4      -5.167e+00  3.374e+00  -1.531 0.141408    
+## rabit_num5      -6.833e+00  3.374e+00  -2.025 0.056423 .  
+## rabit_num6      -5.000e+00  3.374e+00  -1.482 0.154001    
+## injection_site2 -1.833e+00  3.374e+00  -0.543 0.592931    
+## injection_site3  2.667e+00  3.374e+00   0.790 0.438653    
+## injection_site4  2.296e-14  3.374e+00   0.000 1.000000    
+## injection_site5  2.209e-14  3.374e+00   0.000 1.000000    
+## injection_site6 -2.000e+00  3.374e+00  -0.593 0.560034    
+## treatment_durgb -9.333e+00  3.374e+00  -2.766 0.011922 *  
+## treatment_durgc -3.167e+00  3.374e+00  -0.938 0.359225    
+## treatment_durgd -5.667e+00  3.374e+00  -1.679 0.108654    
+## treatment_durge -3.833e+00  3.374e+00  -1.136 0.269394    
+## treatment_durgf -1.317e+01  3.374e+00  -3.902 0.000885 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 5.845 on 20 degrees of freedom
+## Multiple R-squared:  0.5948, Adjusted R-squared:  0.291 
+## F-statistic: 1.958 on 15 and 20 DF,  p-value: 0.0803</code></pre>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="多个样本均数比较的方差分析.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(study_4<span class="fl">.5</span>_aov)</span></code></pre></div>
+<pre><code>##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = herpes_size ~ rabit_num + injection_site + treatment_durg, data = study_4.5)
+## 
+## $rabit_num
+##           diff        lwr       upr     p adj
+## 2-1  0.1666667 -10.440155 10.773488 1.0000000
+## 3-1 -3.3333333 -13.940155  7.273488 0.9165209
+## 4-1 -5.1666667 -15.773488  5.440155 0.6495155
+## 5-1 -6.8333333 -17.440155  3.773488 0.3635462
+## 6-1 -5.0000000 -15.606821  5.606821 0.6790304
+## 3-2 -3.5000000 -14.106821  7.106821 0.8996644
+## 4-2 -5.3333333 -15.940155  5.273488 0.6196674
+## 5-2 -7.0000000 -17.606821  3.606821 0.3388174
+## 6-2 -5.1666667 -15.773488  5.440155 0.6495155
+## 4-3 -1.8333333 -12.440155  8.773488 0.9935325
+## 5-3 -3.5000000 -14.106821  7.106821 0.8996644
+## 6-3 -1.6666667 -12.273488  8.940155 0.9958445
+## 5-4 -1.6666667 -12.273488  8.940155 0.9958445
+## 6-4  0.1666667 -10.440155 10.773488 1.0000000
+## 6-5  1.8333333  -8.773488 12.440155 0.9935325
+## 
+## $injection_site
+##           diff        lwr       upr     p adj
+## 2-1 -1.8333333 -12.440155  8.773488 0.9935325
+## 3-1  2.6666667  -7.940155 13.273488 0.9659998
+## 4-1  0.0000000 -10.606821 10.606821 1.0000000
+## 5-1  0.0000000 -10.606821 10.606821 1.0000000
+## 6-1 -2.0000000 -12.606821  8.606821 0.9903719
+## 3-2  4.5000000  -6.106821 15.106821 0.7636586
+## 4-2  1.8333333  -8.773488 12.440155 0.9935325
+## 5-2  1.8333333  -8.773488 12.440155 0.9935325
+## 6-2 -0.1666667 -10.773488 10.440155 1.0000000
+## 4-3 -2.6666667 -13.273488  7.940155 0.9659998
+## 5-3 -2.6666667 -13.273488  7.940155 0.9659998
+## 6-3 -4.6666667 -15.273488  5.940155 0.7362927
+## 5-4  0.0000000 -10.606821 10.606821 1.0000000
+## 6-4 -2.0000000 -12.606821  8.606821 0.9903719
+## 6-5 -2.0000000 -12.606821  8.606821 0.9903719
+## 
+## $treatment_durg
+##            diff        lwr        upr     p adj
+## b-a  -9.3333333 -19.940155  1.2734880 0.1052995
+## c-a  -3.1666667 -13.773488  7.4401546 0.9315575
+## d-a  -5.6666667 -16.273488  4.9401546 0.5597135
+## e-a  -3.8333333 -14.440155  6.7734880 0.8606140
+## f-a -13.1666667 -23.773488 -2.5598454 0.0098681
+## c-b   6.1666667  -4.440155 16.7734880 0.4716775
+## d-b   3.6666667  -6.940155 14.2734880 0.8810107
+## e-b   5.5000000  -5.106821 16.1068213 0.5896734
+## f-b  -3.8333333 -14.440155  6.7734880 0.8606140
+## d-c  -2.5000000 -13.106821  8.1068213 0.9741605
+## e-c  -0.6666667 -11.273488  9.9401546 0.9999511
+## f-c -10.0000000 -20.606821  0.6068213 0.0718087
+## e-d   1.8333333  -8.773488 12.4401546 0.9935325
+## f-d  -7.5000000 -18.106821  3.1068213 0.2710527
+## f-e  -9.3333333 -19.940155  1.2734880 0.1052995</code></pre>
+</div>
+<div id="两阶段交叉设计资料的方差分析" class="section level3" number="4.2.5">
+<h3><span class="header-section-number">4.2.5</span> 两阶段交叉设计资料的方差分析</h3>
+<p>在医学研究中，欲将A、B两种处理先后施加于同一批实验对象，随机地使半数实验对象先接受A后 接受B，而另一半实验对象 则正好相反，即先接受B再接受A。由于两种处理在全部实验过程中交叉进 行，这种设计称为交叉设计(Crossover design)。 在交叉设计中，A、B两种处理先后以同等的机会出现在两 个实验阶段中，故又称为两阶段交叉设计。当然也可以有多个实验 阶段，但本节仅介绍两阶段的交叉设 计。虽然交叉实验的处理是单因素，但影响实验结果的因素还有非人为控制的实验对 象的个体差异和实 验阶段这两个因素。因此，该设计不仅平衡了处理顺序的影响，而且能把处理方法间的差别、时间先后之 间的差别和实验对象之间的差别分开来分析。但是该设计有一个较为严格的限制条件：前一个实验阶段的处理效应不能持续 作用到下一个实验阶段。为此，有必要在两个阶段之间设一个洗脱(Wash-out)阶段， 以消除残留效应(Carry-over effect) 的影响。在医学研究中交叉设计多用于止痛、镇静、降压等药物或治疗方法间疗效的比较。</p>
+<p>使用《医学统计学》中的 案例4-5 的数据在R中进行两阶段交叉设计资料的方差分析测试。</p>
+<p>例4-6 该数据是A、B两种闪烁液测定血浆中3H-cGMP的交叉试验结果。第I阶段1、3、4、7、9号用A测定，2、5、6、8、10号用B测定;第Ⅱ阶段1347、9号用B测定25、6、8、10号用A测定。试对交叉试验结果进行方差分析</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="多个样本均数比较的方差分析.html#cb62-1" aria-hidden="true" tabindex="-1"></a>subject <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)<span class="co">#受试者，1-10共10人</span></span>
+<span id="cb62-2"><a href="多个样本均数比较的方差分析.html#cb62-2" aria-hidden="true" tabindex="-1"></a>stage <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)<span class="co">#阶段，分为第一阶段和第二阶段</span></span>
+<span id="cb62-3"><a href="多个样本均数比较的方差分析.html#cb62-3" aria-hidden="true" tabindex="-1"></a>liquid <span class="ot">&lt;-</span> <span class="fu">c</span>(a,b)<span class="co">#闪烁液体，分为a,b</span></span>
+<span id="cb62-4"><a href="多个样本均数比较的方差分析.html#cb62-4" aria-hidden="true" tabindex="-1"></a>hcgmp <span class="ot">&lt;-</span> <span class="fu">c</span>()<span class="co">#3H-cGMP结果</span></span></code></pre></div>
+</div>
+</div>
+<div id="多个样本均数间的多重比较" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> 多个样本均数间的多重比较</h2>
+<p>当方差分析的结果为拒绝
+H
+0
+，接受
+H
+1
+时，只说明g个总体均数不全相等。若想进一步了解哪两个总体均数不等， 须进行多个样本均数间的两两比较或称多重比较(Multiple comparison)。这种进一步阐明在ANOVA测试中起重要作 用的群体差异的方法，叫做事后测试(Post hoc tests)。如用案例4-2 的两样本均数比较的检验进行 多重比较，将会加大犯I型错误(把总体均数间本无差别判为有差别)的概。若用t检验作6次比较，且每次比较的检验 水准选为α=0.05，则每次比较不犯I类错误的概率为(1-0.05)，6次均不犯I类错误的概率为(1-0.05)，这时， 总的检验水准变为1-(1-0.05)=026，比0.05大多了。因此，样本均数间的多重比较不能用两样本均数比较的检验。</p>
+<p>事后测试分析测试非常重要，因为尽管ANOVA提供了很多信息，但它并未提供有关特定研究组之间差异的详细信息，也无法提供有关复杂比较的信息。 这些事后测试的进一步分析可能会为研究人员提供该研究的最重要发现。可供我们选择的事后测试统计方法更有10多种， 但是目前还没有一种在任何条件下都适用、效果好的方法。因此，选择与数据相匹配的测试方法，进行组间比较有关的信 息种类以及必要的分析就非常重要。方法选择不当的后果通常与第Ⅰ类错误有关，但也可能涉及未能发现组之间的重要差异。 进一步了解可以阅读：</p>
+</div>
+<div id="多样本方差齐性检验" class="section level2" number="4.4">
+<h2><span class="header-section-number">4.4</span> 多样本方差齐性检验</h2>
+<p>在进行方差分析时要求所对比的各组即各样本的总体方差必须是相等的，这一般需要在作方差分析之前，先对资料的方差齐性进行检验， 特别是在样本方差相差悬殊时，应注意这个问题。对两总体方差进行齐性检验的方法前已介绍。本节介绍多样本(也适用于两样本)方差比较的 Bartlett’s 检验和Levene’s 检验。</p>
+<div id="bartletts-检验" class="section level3" number="4.4.1">
+<h3><span class="header-section-number">4.4.1</span> Bartlett’s 检验</h3>
+<p>该检验以Maurice Stevenson Bartlett命名的，是基于其抽样分布近似为具有(k-1)自由度的卡方分布的统计量，其中k是随机样本的数量， 其大小可能有所不同，并且每个样本均来自独立的正态分布。 巴特利特的检验对偏离常态很敏感，如果样本来自非正态分布， 那么Bartlett的检验可能就比较差。Levene检验和Brown-Forsythe检验是Bartlett检验的替代方法，对偏离正态性较不敏感。</p>
+<p>在R语言中的实现，可以参考下面的代码，以案例4-2数据做测试。根据计算结果，P值=0.1564&gt;0.1，方差齐性检验的通常按照α=-。1 设置，因此不拒绝
+H0 ，即不拒绝各组之间的方向都相等。</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="多个样本均数比较的方差分析.html#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bartlett.test</span>(study_4<span class="fl">.5</span><span class="sc">$</span>herpes_size,study_4<span class="fl">.5</span><span class="sc">$</span>treatment_durg)</span></code></pre></div>
+<pre><code>## 
+##  Bartlett test of homogeneity of variances
+## 
+## data:  study_4.5$herpes_size and study_4.5$treatment_durg
+## Bartlett&#39;s K-squared = 10.673, df = 5, p-value = 0.05826</code></pre>
+</div>
+<div id="levenes-检验" class="section level3" number="4.4.2">
+<h3><span class="header-section-number">4.4.2</span> Levene’s 检验</h3>
+<p>Levene’s 检验是Bartlett’s 检验的替代方法，对样本整体数据不必要是正态分布,对偏离正态性较不敏感。与Levene’s 检验相似的 还有Brown–Forsythe检验，两者的区别是用来计算各组的中心取得参数不一样，Brown–Forsythe采用的是中位数(median)，Levene’s是均值(mean)。</p>
+<p>在R语言中的实现，可以参考下面的代码，以案例4-2数据做测试。根据计算结果，P值=0.1564&gt;0.1，方差齐性检验的通常按照α=-。1 设置，因此不拒绝
+H
+0
+，即不拒绝各组之间的方向都相等</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="多个样本均数比较的方差分析.html#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co">#DescTools包中的LeveneTest()</span></span>
+<span id="cb65-2"><a href="多个样本均数比较的方差分析.html#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DescTools)</span>
+<span id="cb65-3"><a href="多个样本均数比较的方差分析.html#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Levene&#39;s是均值(mean)，center = &quot;mean&quot;</span></span>
+<span id="cb65-4"><a href="多个样本均数比较的方差分析.html#cb65-4" aria-hidden="true" tabindex="-1"></a><span class="fu">LeveneTest</span>(study_4<span class="fl">.5</span><span class="sc">$</span>herpes_size,study_4<span class="fl">.5</span><span class="sc">$</span>treatment_durg,<span class="at">center =</span> <span class="st">&quot;mean&quot;</span>)</span></code></pre></div>
+<pre><code>## Levene&#39;s Test for Homogeneity of Variance (center = &quot;mean&quot;)
+##       Df F value Pr(&gt;F)
+## group  5  2.0463 0.1004
+##       30</code></pre>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="多个样本均数比较的方差分析.html#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Brown–Forsythe 是中位数(median)，center = &quot;median&quot;</span></span>
+<span id="cb67-2"><a href="多个样本均数比较的方差分析.html#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="fu">LeveneTest</span>(study_4<span class="fl">.5</span><span class="sc">$</span>herpes_size,study_4<span class="fl">.5</span><span class="sc">$</span>treatment_durg,<span class="at">center =</span> <span class="st">&quot;median&quot;</span>)</span></code></pre></div>
+<pre><code>## Levene&#39;s Test for Homogeneity of Variance (center = &quot;median&quot;)
+##       Df F value Pr(&gt;F)
+## group  5  1.7201 0.1604
+##       30</code></pre>
+</div>
+</div>
+<div id="重复测量的方差分析" class="section level2" number="4.5">
+<h2><span class="header-section-number">4.5</span> 重复测量的方差分析</h2>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="推论统计.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="applications.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/yihui/bookdown-chinese/edit/master/03-多个样本均数比较的方差分析.Rmd",
+"text": "编辑"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["R语言与医学统计学.pdf", "R语言与医学统计学.epub"],
+"toc": {
+"collapse": "none"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
